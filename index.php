@@ -35,11 +35,9 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 $arrLength = count($arr);
+$randomNumber = rand(0, $arrLength-1);
 for($i = 1; $i < $arrLength; $i++){
-	$toppings = json_decode($arr[$i], true);
-	echo $toppings['userid'];
-	echo $toppings['keyword'];
-	echo $toppings['description'];
+	$toppings = json_decode($arr[$randomNumber], true);
 	$userid = $toppings['userid'];
 	$keyword = rtrim($toppings['keyword']);
 	$description = rtrim($toppings['description']);
@@ -51,7 +49,6 @@ $conn->close();
 <html>
 <head>
 	<script src="js/jquery.js"></script>
-	<script src="js/jquery.flip.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/styles.css">
@@ -62,18 +59,42 @@ $conn->close();
 		var description = "<?php echo $description ?>";
 		$('#keyword').append(keyword);
 		$('#description').append(description);
+		var count = true;
+		$("#flipBtn").click(function(){
+			if (count == true){
+				$('.flip-card-inner').css("transform", "rotateY(180deg)");
+				count = false;
+			}
+			else {
+				$('.flip-card-inner').css("transform", "rotateY(360deg)");
+				count = true;
+			}
+		});
 	});
 </script>
 <body>
-	<div class="flip-card">
-	  <div class="flip-card-inner">
-	    <div class="flip-card-front">
-	      <h1 id="keyword"></h1>
-	    </div>
-	    <div class="flip-card-back">
-	      <h2 id="description"></h2>
-	    </div>
-	  </div>
+	<div style="margin-top:100px">
+		<div class="flip-card" style="margin:auto">
+		  	<div class="flip-card-inner">
+		    	<div class="flip-card-front">
+		      		<h1 id="keyword"></h1>
+		    	</div>
+		    	<div class="flip-card-back">
+		      		<h2 id="description"></h2>
+		   		</div>
+		  	</div>
+		  	<div class="row" style="margin-top: 25px">
+			  	<div style="float:left">
+			  		<button id="backBtn">Back</button>
+			  	</div>
+			  	<div style="margin: auto;width: fit-content">
+			  		<button id="flipBtn">Flip</button>
+			  	</div>
+			  	<div style="float:right">
+			  		<button id="nextBtn">Next</button>
+			  	</div>
+			 </div>
+		</div>
 	</div>
 </body>
 </html>
