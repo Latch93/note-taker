@@ -10,13 +10,34 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+//grabs keyword for the notecard
+$keyword = "SELECT * FROM notes WHERE userid = '1'";
+$result = $conn->query($keyword);
+while ($row = $result->fetch_assoc()) {$keywordFinal = $row["keyword"];}
 
-$sql = "SELECT userid, keyword, description FROM notes";
+//grabs description for the notecard
+$description = "SELECT * FROM notes WHERE userid = '1'";git 
+$result = $conn->query($keyword);
+while ($row = $result->fetch_assoc()) {$descriptionFinal = $row["description"];}
+
+$sql = "SELECT * FROM notes";
 $result = $conn->query($sql);
 
-if (!$result) {
+if (!$result) { 
+	echo "Not result" . $result;
     trigger_error('Invalid query: ' . $conn->error);
 }
+
+/*
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["userid"]. " - Name: " . $row["keyword"]. " " . $row["description"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+*/
 $counter = 0;
 $arr = [];
 $myObj = new stdClass();
@@ -43,6 +64,7 @@ for($i = 1; $i < $arrLength; $i++){
 	$description = rtrim($toppings['description']);
 };
 
+
 $conn->close();
 ?>
 
@@ -53,12 +75,12 @@ $conn->close();
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/styles.css">
 </head>
+
 <script>
+
 	$(document).ready(function(){
-		var keyword = "<?php echo $keyword ?>";
-		var description = "<?php echo $description ?>";
-		$('#keyword').append(keyword);
-		$('#description').append(description);
+		$('#keyword').append("<?php echo $keywordFinal?>");
+		$('#description').append("<?php echo $descriptionFinal?>");
 		var count = true;
 		$("#flipBtn").click(function(){
 			if (count == true){
@@ -72,15 +94,21 @@ $conn->close();
 		});
 	});
 </script>
+
 <body>
 	<div style="margin-top:100px">
 		<div class="flip-card" style="margin:auto">
 		  	<div class="flip-card-inner">
 		    	<div class="flip-card-front">
-		      		<h1 id="keyword"></h1>
+		      		<h1 id="keyword">
+		      			
+		      		</h1>
 		    	</div>
 		    	<div class="flip-card-back">
-		      		<h2 id="description"></h2>
+		      		<h2 id="description">
+		      			
+
+		      		</h2>
 		   		</div>
 		  	</div>
 		  	<div class="row" style="margin-top: 25px">
