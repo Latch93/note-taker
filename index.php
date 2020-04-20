@@ -52,10 +52,13 @@ $conn->close();
 	$(document).ready(function(){
 		
 		function updateCard(UpdateCardNumber){
+			console.log(cardNumber)
+			console.log(UpdateCardNumber)
+			if (cardNumber > -1 && cardNumber <= maxCardNumber){
 			cardNumber = UpdateCardNumber
 			$('#keyword').html(cardKeywords[cardNumber]);
 			$('#description').html(cardDescriptions[cardNumber]);
-		}
+		}}
 
 		cardKeywords = <?php echo $keywordsJSON ?>; //grabs keywords from php and stores it in object
 		cardDescriptions = <?php echo $descriptionsJSON ?>; // grabs descriptions from php and store it in object
