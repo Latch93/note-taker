@@ -10,15 +10,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-//grabs keyword for the notecard
-$keyword = "SELECT * FROM notes WHERE userid = '1'";
-$result = $conn->query($keyword);
-while ($row = $result->fetch_assoc()) {$keywordFinal = $row["keyword"];}
-
-//grabs description for the notecard
-$description = "SELECT * FROM notes WHERE userid = '1'";git 
-$result = $conn->query($keyword);
-while ($row = $result->fetch_assoc()) {$descriptionFinal = $row["description"];}
 
 $sql = "SELECT * FROM notes";
 $result = $conn->query($sql);
@@ -28,42 +19,22 @@ if (!$result) {
     trigger_error('Invalid query: ' . $conn->error);
 }
 
-/*
-if ($result->num_rows > 0) {
+$numberOfRows = $result->num_rows;
+$keywords = array();
+$descriptions = array();
+
+if ($numberOfRows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row["userid"]. " - Name: " . $row["keyword"]. " " . $row["description"]. "<br>";
-    }
-} else {
+    	array_push($keywords,$row["keyword"]);
+    	array_push($descriptions, $row["description"]);
+       // echo $row["userid"]. $row["keyword"]. " " . $row["description"]. "<br>";  
+    }} else {
     echo "0 results";
 }
-*/
-$counter = 0;
-$arr = [];
-$myObj = new stdClass();
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        
-        $myObj->userid = $row["userid"];
-		$myObj->keyword = $row["keyword"];
-		$myObj->description = $row["description"];
 
-		$myJSON = json_encode($myObj);
-		array_push($arr,$myJSON);
-    }
-} else {
-    echo "0 results";
-}
-$arrLength = count($arr);
-$randomNumber = rand(0, $arrLength-1);
-for($i = 1; $i < $arrLength; $i++){
-	$toppings = json_decode($arr[$randomNumber], true);
-	$userid = $toppings['userid'];
-	$keyword = rtrim($toppings['keyword']);
-	$description = rtrim($toppings['description']);
-};
-
+$keywordsJSON = json_encode($keywords);
+$descriptionsJSON = json_encode($descriptions);
 
 $conn->close();
 ?>
@@ -79,17 +50,41 @@ $conn->close();
 <script>
 
 	$(document).ready(function(){
-		$('#keyword').append("<?php echo $keywordFinal?>");
-		$('#description').append("<?php echo $descriptionFinal?>");
-		var count = true;
+		
+		function updateCard(UpdateCardNumber){
+			cardNumber = UpdateCardNumber
+			$('#keyword').html(cardKeywords[cardNumber]);
+			$('#description').html(cardDescriptions[cardNumber]);
+		}
+
+		cardKeywords = <?php echo $keywordsJSON ?>; //grabs keywords from php and stores it in object
+		cardDescriptions = <?php echo $descriptionsJSON ?>; // grabs descriptions from php and store it in object
+		cardNumber = 0 
+		maxCardNumber = "<?php echo $numberOfRows?>" // grabs how many cards there are 
+
+		//first card on inital load
+		updateCard(cardNumber)
+
+		//changes to the next card in the object
+		$("#nextBtn").click(function(){			
+			updateCard(cardNumber+1);
+		});
+
+		//changes to the previous card in the object
+		$("#backBtn").click(function(){			
+			updateCard(cardNumber-1);
+		});
+
+		//function flips the card
+		var cardFlipped = false;
 		$("#flipBtn").click(function(){
-			if (count == true){
+			if (cardFlipped == false){
 				$('.flip-card-inner').css("transform", "rotateY(180deg)");
-				count = false;
+				cardFlipped = true;
 			}
 			else {
 				$('.flip-card-inner').css("transform", "rotateY(360deg)");
-				count = true;
+				cardFlipped = false;
 			}
 		});
 	});
