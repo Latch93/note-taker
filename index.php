@@ -54,7 +54,7 @@ $conn->close();
 		function updateCard(UpdateCardNumber){
 			console.log(cardNumber)
 			console.log(UpdateCardNumber)
-			if (cardNumber > -1 && cardNumber <= maxCardNumber){
+			if (UpdateCardNumber > -1 && UpdateCardNumber <= maxCardNumber - 1){
 			cardNumber = UpdateCardNumber
 			$('#keyword').html(cardKeywords[cardNumber]);
 			$('#description').html(cardDescriptions[cardNumber]);
