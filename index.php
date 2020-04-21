@@ -44,21 +44,28 @@ $conn->close();
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 
 <script>
 
 	$(document).ready(function(){
 		
+		
+
 		function updateCard(UpdateCardNumber){
-			console.log(cardNumber)
 			console.log(UpdateCardNumber)
 			if (UpdateCardNumber > -1 && UpdateCardNumber <= maxCardNumber - 1){
 			cardNumber = UpdateCardNumber
 			$('#keyword').html(cardKeywords[cardNumber]);
 			$('#description').html(cardDescriptions[cardNumber]);
-		}}
+		} else if (UpdateCardNumber == maxCardNumber){
+			cardNumber = UpdateCardNumber 
+			$('#keyword').html("<button id='new' onclick='newCard()'>New Card <img src='img/plus.png'></img></button>")
+		}
+
+
+	}
 
 		cardKeywords = <?php echo $keywordsJSON ?>; //grabs keywords from php and stores it in object
 		cardDescriptions = <?php echo $descriptionsJSON ?>; // grabs descriptions from php and store it in object
@@ -90,23 +97,49 @@ $conn->close();
 				cardFlipped = false;
 			}
 		});
-	});
+
+		//does not work
+		/*$("#newCard").click(function(){
+			$('#keyword').html('<form action="insert.php" method="post"><input type="text" name="keyword" id="keywordInput"></form>');
+
+			
+		});
+
+		<button id='newCard'>New Card <img src='img/plus.png'></img></button> */
+
+
+		
+	});	
+	function newCard(){
+			document.getElementById("flipCard").innerHTML= `
+			<form action="newCard.php" method="post">	
+				<div class="flip-card-front">
+		      		<h1 class="cardText" id="keyword"> 
+		      			<input type="text" name="keyword" id="keywordInput"> 
+		      		</h1>
+		      	</div>
+		
+		    	<div class="flip-card-back">
+		      		<h2 class="cardText" id="description"> 
+		      			<input type="text" name="description" id="descriptionInput"> 
+		      			<input type="submit" value="Submit">
+		      		</h2>
+		   		</div>
+		   	</form>
+			`
+		}
 </script>
 
 <body>
 	<div style="margin-top:100px">
 		<div class="flip-card" style="margin:auto">
-		  	<div class="flip-card-inner">
+		  	<div class="flip-card-inner" id="flipCard">
 		    	<div class="flip-card-front">
-		      		<h1 id="keyword">
-		      			
-		      		</h1>
-		    	</div>
+		      		<h1 class="cardText" id="keyword"></h1>
+		      	</div>
+		
 		    	<div class="flip-card-back">
-		      		<h2 id="description">
-		      			
-
-		      		</h2>
+		      		<h2 class="cardText" id="description"></h2>
 		   		</div>
 		  	</div>
 		  	<div class="row" style="margin-top: 25px">
@@ -122,5 +155,8 @@ $conn->close();
 			 </div>
 		</div>
 	</div>
+<script type="text/javascript">
+
+</script>
 </body>
 </html>
