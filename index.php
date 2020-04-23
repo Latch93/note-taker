@@ -50,37 +50,50 @@ $conn->close();
 <script>
 
 	$(document).ready(function(){
-		
-		
 
 		function updateCard(UpdateCardNumber){
-			console.log(UpdateCardNumber)
-			if (UpdateCardNumber > -1 && UpdateCardNumber <= maxCardNumber - 1){
-			cardNumber = UpdateCardNumber
-			$('#keyword').html(cardKeywords[cardNumber]);
-			$('#description').html(cardDescriptions[cardNumber]);
-		} 
-
-
-	}
+			console.log("updatecardNo: ", UpdateCardNumber);
+			if (UpdateCardNumber > -1 && UpdateCardNumber <= maxCardNumber){
+				cardNumber = UpdateCardNumber;
+				$('#keyword').html(cardKeywords[cardNumber-1]);
+				$('#description').html(cardDescriptions[cardNumber-1]);
+				$('#cardCounter').html(UpdateCardNumber + "/" + maxCardNumber);
+			} 
+		}
 
 		cardKeywords = <?php echo $keywordsJSON ?>; //grabs keywords from php and stores it in object
 		cardDescriptions = <?php echo $descriptionsJSON ?>; // grabs descriptions from php and store it in object
-		cardNumber = 0 
+		cardNumber = 1;
 		maxCardNumber = "<?php echo $numberOfRows?>" // grabs how many cards there are 
 
 		//first card on inital load
 		updateCard(cardNumber)
 
 		//changes to the next card in the object
-		$("#nextBtn").click(function(){			
-			updateCard(cardNumber+1);
+		$("#nextBtn").click(function(){		
+			if(cardNumber < maxCardNumber){
+				updateCard(cardNumber+1);
+			}	
 		});
 
 		//changes to the previous card in the object
-		$("#backBtn").click(function(){			
-			updateCard(cardNumber-1);
+		$("#backBtn").click(function(){	
+			if(cardNumber > 1)	{
+				updateCard(cardNumber-1);
+			}	
 		});
+
+		var newKeyword = $('#newKeyword').val();
+		var newDescription = $('#newDescription').val();
+		// <?php 
+		// 	$servername = "localhost";
+		// 	$username = "root";
+		// 	$password = "password";
+		// 	$dbname = "NoteKnight";
+		// 	// Create connection
+		// 	$conn = new mysqli($servername, $username, $password, $dbname);
+		// 	$addCardSql = "INSERT INTO notes (keyword, description) VALUES ('$newKeyword', '$newDescription')";
+		// ?>
 
 		//function flips the card
 		var cardFlipped = false;
@@ -95,12 +108,32 @@ $conn->close();
 			}
 		});
 
-		//does not work
-		/*$("#newCard").click(function(){
-			$('#keyword').html('<form action="insert.php" method="post"><input type="text" name="keyword" id="keywordInput"></form>');
-
-			
+		$("#addCardBtn").click(function(){
+			var newKeyword = $('#newKeyword').val();
+			var newDescription = $('#newDescription').val();
+			var newCardCookie = "keywordCookie=" + newKeyword; 
+			document.cookie = "keywordCookie=" + newKeyword + "," + newDescription; 
+		  	$('#myModal').modal('hide');
+		  	var cookie = document.cookie;
+			<?php
+				$newCookie = $_COOKIE["keywordCookie"];
+				$cookieArr = explode(',', $newCookie);
+				$newKeyword = $cookieArr[0];
+				$newDescription = $cookieArr[1];
+			?>;
+			var check = "<?php echo $newKeyword ?>";
+			<?php 
+				$servername = "localhost";
+				$username = "root";
+				$password = "password";
+				$dbname = "NoteKnight";
+				// Create connection
+				$conn = new mysqli($servername, $username, $password, $dbname);
+				$sql = "INSERT INTO notes (keyword, description) VALUES ('$newKeyword', '$newDescription')";
+				$conn->query($sql);
+			?>
 		});
+
 
 		<button id='newCard'>New Card <img src='img/plus.png'></img></button> */
 
@@ -112,6 +145,7 @@ $conn->close();
 <body>
 	<div style="margin-top:100px">
 		<div class="flip-card" style="margin:auto">
+			<div id="cardCounter" style="display: flex; justify-content: center"></div>
 		  	<div class="flip-card-inner" id="flipCard">
 		    	<div class="flip-card-front">
 		      		<h1 class="cardText" id="keyword"></h1>
@@ -136,17 +170,45 @@ $conn->close();
 			 </div>
 
 			 <div class="newCard"> 
-			  		<button id='new'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
+			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
 			 </div>
 		</div>
 	</div>
 
-	<form action="newCard.php" method="post">	
-		<input type="text" name="keyword" id="keywordInput"> 
-		<input type="text" name="description" id="descriptionInput"> 
-		<input type="submit" value="Submit">
-	</form>
+	<div class="container">
 
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add a new card</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="row">
+        		<label>Keyword</label>
+        		<input id="newKeyword"/>
+        	</div>
+        	<div class="row">
+        		<label>Description</label>
+        		<input id="newDescription"/>
+        	</div>
+        	<div>
+        		<button id="addCardBtn">Add Card</button>
+        	</div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Discard Changes</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
 
 </body>
 </html>
