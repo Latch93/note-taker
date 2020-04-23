@@ -59,10 +59,7 @@ $conn->close();
 			cardNumber = UpdateCardNumber
 			$('#keyword').html(cardKeywords[cardNumber]);
 			$('#description').html(cardDescriptions[cardNumber]);
-		} else if (UpdateCardNumber == maxCardNumber){
-			cardNumber = UpdateCardNumber 
-			$('#keyword').html("<button id='new' onclick='newCard()'>New Card <img src='img/plus.png'></img></button>")
-		}
+		} 
 
 
 	}
