@@ -135,9 +135,6 @@ $conn->close();
 		});
 
 
-		<button id='newCard'>New Card <img src='img/plus.png'></img></button> */
-
-
 		
 	});	
 </script>
