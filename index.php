@@ -110,25 +110,6 @@ $conn->close();
 
 		
 	});	
-/*	function newCard(){
-			document.getElementById("flipCard").innerHTML= `
-			<form action="newCard.php" method="post">	
-				<div class="flip-card-front">
-		      		<h1 class="cardText" id="keyword"> 
-		      			<input type="text" name="keyword" id="keywordInput"> 
-		      		</h1>
-		      	</div>
-		
-		    	<div class="flip-card-back">
-		      		<h2 class="cardText" id="description"> 
-		      			<input type="text" name="description" id="descriptionInput"> 
-		      			<input type="submit" value="Submit">
-		      		</h2>
-		   		</div>
-		   	</form>
-			`
-		}*/
-
 </script>
 
 <body>
@@ -154,12 +135,21 @@ $conn->close();
 			  	</div>
 			  	<div style="float:right">
 			  		<button id="nextBtn">Next</button>
-			  	</div>
+			  	</div>			  	
+			 </div>
+
+			 <div class="newCard"> 
+			  		<button id='new'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
 			 </div>
 		</div>
 	</div>
-<script type="text/javascript">
 
-</script>
+	<form action="newCard.php" method="post">	
+		<input type="text" name="keyword" id="keywordInput"> 
+		<input type="text" name="description" id="descriptionInput"> 
+		<input type="submit" value="Submit">
+	</form>
+
+
 </body>
 </html>
