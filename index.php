@@ -110,7 +110,7 @@ $conn->close();
 
 		
 	});	
-	function newCard(){
+/*	function newCard(){
 			document.getElementById("flipCard").innerHTML= `
 			<form action="newCard.php" method="post">	
 				<div class="flip-card-front">
@@ -127,7 +127,8 @@ $conn->close();
 		   		</div>
 		   	</form>
 			`
-		}
+		}*/
+
 </script>
 
 <body>
@@ -136,10 +137,12 @@ $conn->close();
 		  	<div class="flip-card-inner" id="flipCard">
 		    	<div class="flip-card-front">
 		      		<h1 class="cardText" id="keyword"></h1>
+		      		<div class="cardLabel">Keyword</div>
 		      	</div>
 		
 		    	<div class="flip-card-back">
 		      		<h2 class="cardText" id="description"></h2>
+		      		<span class="cardlabel">Description</span>
 		   		</div>
 		  	</div>
 		  	<div class="row" style="margin-top: 25px">
