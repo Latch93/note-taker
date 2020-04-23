@@ -53,8 +53,10 @@
     align-items: center;
     justify-content: center;
 }
-.cardText img {
-  height:30px;
-  transform: translateY(-3px);
+.newCard {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
 
 }
