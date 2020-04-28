@@ -1,10 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "password";
-$dbname = "NoteKnight";
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+include 'databaseInfo.php';
 
 if($conn === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -20,7 +15,7 @@ if(mysqli_query($conn, $sql)){
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
  
-// Close connection
+// Close connection--
 mysqli_close($conn);
 ?>
 

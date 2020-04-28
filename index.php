@@ -1,50 +1,10 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "password";
-$dbname = "NoteKnight";
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT * FROM notes";
-$result = $conn->query($sql);
-
-if (!$result) { 
-	echo "Not result" . $result;
-    trigger_error('Invalid query: ' . $conn->error);
-}
-
-$numberOfRows = $result->num_rows;
-$keywords = array();
-$descriptions = array();
-
-if ($numberOfRows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-    	array_push($keywords,$row["keyword"]);
-    	array_push($descriptions, $row["description"]);
-       // echo $row["userid"]. $row["keyword"]. " " . $row["description"]. "<br>";  
-    }} else {
-    echo "0 results";
-}
-
-$keywordsJSON = json_encode($keywords);
-$descriptionsJSON = json_encode($descriptions);
-
-$conn->close();
-?>
-
 <html>
 <head>
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<?php include 'AppendCards.php';?>
 </head>
 
 <script>
@@ -107,7 +67,7 @@ $conn->close();
 				cardFlipped = false;
 			}
 		});
-
+/*
 		$("#addCardBtn").click(function(){
 			var newKeyword = $('#newKeyword').val();
 			var newDescription = $('#newDescription').val();
@@ -116,26 +76,26 @@ $conn->close();
 		  	$('#myModal').modal('hide');
 		  	var cookie = document.cookie;
 			<?php
-				$newCookie = $_COOKIE["keywordCookie"];
+				/*$newCookie = $_COOKIE["keywordCookie"];
 				$cookieArr = explode(',', $newCookie);
 				$newKeyword = $cookieArr[0];
-				$newDescription = $cookieArr[1];
+				$newDescription = $cookieArr[1];*/
 			?>;
-			var check = "<?php echo $newKeyword ?>";
+			var check = "<?php //echo $newKeyword ?>";
 			<?php 
-				$servername = "localhost";
+			/*	$servername = "localhost";
 				$username = "root";
 				$password = "password";
 				$dbname = "NoteKnight";
 				// Create connection
 				$conn = new mysqli($servername, $username, $password, $dbname);
 				$sql = "INSERT INTO notes (keyword, description) VALUES ('$newKeyword', '$newDescription')";
-				$conn->query($sql);
+				$conn->query($sql);*/
 			?>
 		});
 
 
-		
+		*/
 	});	
 </script>
 
