@@ -45,15 +45,7 @@
 
 		var newKeyword = $('#newKeyword').val();
 		var newDescription = $('#newDescription').val();
-		// <?php 
-		// 	$servername = "localhost";
-		// 	$username = "root";
-		// 	$password = "password";
-		// 	$dbname = "NoteKnight";
-		// 	// Create connection
-		// 	$conn = new mysqli($servername, $username, $password, $dbname);
-		// 	$addCardSql = "INSERT INTO notes (keyword, description) VALUES ('$newKeyword', '$newDescription')";
-		// ?>
+
 
 		//function flips the card
 		var cardFlipped = false;
@@ -67,35 +59,29 @@
 				cardFlipped = false;
 			}
 		});
-/*
-		$("#addCardBtn").click(function(){
-			var newKeyword = $('#newKeyword').val();
-			var newDescription = $('#newDescription').val();
-			var newCardCookie = "keywordCookie=" + newKeyword; 
-			document.cookie = "keywordCookie=" + newKeyword + "," + newDescription; 
-		  	$('#myModal').modal('hide');
-		  	var cookie = document.cookie;
-			<?php
-				/*$newCookie = $_COOKIE["keywordCookie"];
-				$cookieArr = explode(',', $newCookie);
-				$newKeyword = $cookieArr[0];
-				$newDescription = $cookieArr[1];*/
-			?>;
-			var check = "<?php //echo $newKeyword ?>";
-			<?php 
-			/*	$servername = "localhost";
-				$username = "root";
-				$password = "password";
-				$dbname = "NoteKnight";
-				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
-				$sql = "INSERT INTO notes (keyword, description) VALUES ('$newKeyword', '$newDescription')";
-				$conn->query($sql);*/
-			?>
+
+		$('#addCardBtn').on('click', function() {
+			$("#addCardBtn").attr("disabled", "disabled");
+			var keyword = $('#newKeyword').val();
+			var description = $('#newDescription').val();
+			if(keyword!="" && description!=""){
+				$.ajax({
+			        url: "save.php",
+			        type: "post",
+			        data: {
+						keyword: keyword,
+						description: description,		
+					},
+					success: function (response) {
+						console.log(response);
+						        			   // You will get response from your PHP page (what you echo or print)
+        			},
+			    });
+			}
+			else{
+				alert('Please fill all the field !');
+			}
 		});
-
-
-		*/
 	});	
 </script>
 
@@ -127,7 +113,7 @@
 			 </div>
 
 			 <div class="newCard"> 
-			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
+			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="myModal" id='newCardBtn'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
 			 </div>
 		</div>
 	</div>
