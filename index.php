@@ -73,14 +73,34 @@
 						description: description,		
 					},
 					success: function (response) {
-						console.log(response);
-						        			   // You will get response from your PHP page (what you echo or print)
+						$('#myModal').modal('hide');
+						location.reload();
+					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
 			}
 			else{
 				alert('Please fill all the field !');
 			}
+		});
+
+		$('.delCardBtn').on('click', function() {
+			$(".delCardBtn").attr("disabled", "disabled");
+			var keyword = $('h1#keyword.cardText').text();
+			var description = $('#description').text();
+				$.ajax({
+			        url: "delete.php",
+			        type: "post",
+			        data: {
+						keyword: keyword,
+						description: description,		
+					},
+					success: function (response) {
+						location.reload();
+					// You will get response from your PHP page (what you echo or print)
+        			},
+			    });
+			
 		});
 	});	
 </script>
@@ -93,11 +113,13 @@
 		    	<div class="flip-card-front">
 		      		<h1 class="cardText" id="keyword"></h1>
 		      		<div class="cardLabel">Keyword</div>
+		      		<button class="delCardBtn" style="float:right;margin-top: -27px;">Delete</button>
 		      	</div>
 		
 		    	<div class="flip-card-back">
 		      		<h2 class="cardText" id="description"></h2>
-		      		<span class="cardlabel">Description</span>
+		      		<div class="cardlabel">Description</div>
+		      		<button class="delCardBtn" style="float:right;margin-top: -27px;">Delete</button>
 		   		</div>
 		  	</div>
 		  	<div class="row" style="margin-top: 25px">
@@ -113,7 +135,7 @@
 			 </div>
 
 			 <div class="newCard"> 
-			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="myModal" id='newCardBtn'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
+			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
 			 </div>
 		</div>
 	</div>

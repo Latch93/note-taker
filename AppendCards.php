@@ -22,7 +22,6 @@ if ($numberOfRows > 0) {
     while($row = $result->fetch_assoc()) {
     	array_push($keywords,$row["keyword"]);
     	array_push($descriptions, $row["description"]);
-       // echo $row["userid"]. $row["keyword"]. " " . $row["description"]. "<br>";  
     }} else {
     echo "0 results";
 }
