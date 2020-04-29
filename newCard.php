@@ -19,10 +19,5 @@ if(mysqli_query($conn, $sql)){
 mysqli_close($conn);
 ?>
 
-<head><script src="js/jquery.js"></script></head>
-<script>
-	$(document).ready(function(){
-	window.location.replace("http://localhost/note-taker/");});
-</script>
 
 	

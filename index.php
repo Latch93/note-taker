@@ -29,6 +29,7 @@
 		//first card on inital load
 		updateCard(cardNumber)
 
+
 		//changes to the next card in the object
 		$("#nextBtn").click(function(){		
 			if(cardNumber < maxCardNumber){
@@ -46,7 +47,10 @@
 		var newKeyword = $('#newKeyword').val();
 		var newDescription = $('#newDescription').val();
 
-
+		if(maxCardNumber == 0){
+			$('#keyword').text("Click New Card +");
+			$('#description').text("Click New Card +");
+		}
 		//function flips the card
 		var cardFlipped = false;
 		$("#flipBtn").click(function(){
@@ -64,7 +68,23 @@
 			$("#addCardBtn").attr("disabled", "disabled");
 			var keyword = $('#newKeyword').val();
 			var description = $('#newDescription').val();
-			if(keyword!="" && description!=""){
+			console.log("keyword: ", keyword);
+			if(keyword == "" && description ==""){
+				$("#addCardBtn").prop("disabled", false);
+				$('#emptyKeyword').prop('hidden', false);
+				$('#emptyDescription').prop('hidden', false);
+			}
+			else if(keyword == "" && description != ""){
+				$("#addCardBtn").prop("disabled", false);
+				$('#emptyDescription').prop('hidden', true);
+				$('#emptyKeyword').prop('hidden', false);
+			}
+			else if(keyword != "" && description == ""){
+				$("#addCardBtn").prop("disabled", false);
+				$('#emptyDescription').prop('hidden', false);
+				$('#emptyKeyword').prop('hidden', true);
+			}
+			else{
 				$.ajax({
 			        url: "save.php",
 			        type: "post",
@@ -74,14 +94,17 @@
 					},
 					success: function (response) {
 						$('#myModal').modal('hide');
+						$('#emptyKeyword').prop('hidden', true);
+						$('#emptyDescription').prop('hidden', true);
 						location.reload();
-					// You will get response from your PHP page (what you echo or print)
-        			},
+	    			},
 			    });
+				
 			}
-			else{
-				alert('Please fill all the field !');
-			}
+		});
+		$('#newCardBtn').on('click', function() {
+			$('#emptyKeyword').prop('hidden', true);
+			$('#emptyDescription').prop('hidden', true);
 		});
 
 		$('.delCardBtn').on('click', function() {
@@ -97,7 +120,6 @@
 					},
 					success: function (response) {
 						location.reload();
-					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
 			
@@ -113,24 +135,25 @@
 		    	<div class="flip-card-front">
 		      		<h1 class="cardText" id="keyword"></h1>
 		      		<div class="cardLabel">Keyword</div>
-		      		<button class="delCardBtn" style="float:right;margin-top: -27px;">Delete</button>
+		      		<button class="delCardBtn btn btn-danger">Delete</button>
 		      	</div>
 		
 		    	<div class="flip-card-back">
 		      		<h2 class="cardText" id="description"></h2>
 		      		<div class="cardlabel">Description</div>
-		      		<button class="delCardBtn" style="float:right;margin-top: -27px;">Delete</button>
+		      		<button class="delCardBtn btn btn-danger">Delete</button>
 		   		</div>
 		  	</div>
 		  	<div class="row" style="margin-top: 25px">
 			  	<div style="float:left">
-			  		<button id="backBtn">Back</button>
+			  		<button id="backBtn" class="btn btn-primary">Back</button>
 			  	</div>
 			  	<div style="margin: auto;width: fit-content">
-			  		<button id="flipBtn">Flip</button>
+			  		<button id="flipBtn" class="btn btn-secondary">Flip</button>
 			  	</div>
+			  	<i class="fas fa-allergies"></i>
 			  	<div style="float:right">
-			  		<button id="nextBtn">Next</button>
+			  		<button id="nextBtn" class="btn btn-primary">Next</button>
 			  	</div>			  	
 			 </div>
 
@@ -152,21 +175,28 @@
           <h4 class="modal-title">Add a new card</h4>
         </div>
         <div class="modal-body">
-        	<div class="row">
-        		<label>Keyword</label>
-        		<input id="newKeyword"/>
-        	</div>
-        	<div class="row">
-        		<label>Description</label>
-        		<input id="newDescription"/>
-        	</div>
-        	<div>
-        		<button id="addCardBtn">Add Card</button>
-        	</div>
+        	
+
+		    <div class="form-group">
+		    	<label for="newKeyword">Keyword</label>
+		    	<input class="form-control" id="newKeyword">
+		    	<div class="alert alert-danger" id="emptyKeyword" role="alert" hidden>
+				  Please enter a keyword
+				</div>
+		    	<div hidden id="emptyKeyword"></div>
+		    </div>
+		    <div class="form-group">
+		    	<label for="newDescription">Description</label>
+		    	<input class="form-control" id="newDescription">
+		    	<div class="alert alert-danger" id="emptyDescription" role="alert" hidden>
+				  Please enter a description
+				</div>
+		    </div>			    
+		    <button id="addCardBtn" class="btn btn-primary">Add Card</button>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Discard Changes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Discard Changes</button>
         </div>
       </div>
       

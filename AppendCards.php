@@ -22,10 +22,10 @@ if ($numberOfRows > 0) {
     while($row = $result->fetch_assoc()) {
     	array_push($keywords,$row["keyword"]);
     	array_push($descriptions, $row["description"]);
-    }} else {
-    echo "0 results";
-}
+    }
+} 
 
+$numberOfRows = json_encode($numberOfRows);
 $keywordsJSON = json_encode($keywords);
 $descriptionsJSON = json_encode($descriptions);
 
