@@ -62,3 +62,12 @@
 .cardLabel {
   font-weight: bold;
 }
+
+.alert-danger {
+  margin-top:10px;
+}
+
+.delCardBtn {
+  float: right;
+  margin-top: -35px;
+}
