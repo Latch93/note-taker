@@ -26,6 +26,7 @@
 		cardNumber = 1;
 		maxCardNumber = cardKeywords.length // grabs how many cards there are 
 
+		setName = "Straight Facts"
 
 		//first card on inital load
 		updateCard(cardNumber)
@@ -70,6 +71,8 @@
 			        url: "save.php",
 			        type: "post",
 			        data: {
+			        	setID: setName,
+			        	noteID: cardNumber+=1,
 						keyword: keyword,
 						description: description,		
 					},
@@ -105,7 +108,12 @@
 						cardKeywords.pop(keyword);
 						cardDescriptions.pop(description);
 						maxCardNumber = maxCardNumber - 1
-						updateCard(cardNumber -1)
+						if (cardNumber == 1){
+							updateCard(cardNumber+=1)
+						} else {
+							updateCard(cardNumber-=1)
+						}
+						
 						$(".delCardBtn").removeAttr("disabled")
 					// You will get response from your PHP page (what you echo or print)
         			},
@@ -116,6 +124,9 @@
 </script>
 
 <body>
+
+
+	<!--   Notecard Wrapper   -->
 	<div style="margin-top:100px">
 		<div class="flip-card" style="margin:auto">
 			<div id="cardCounter" style="display: flex; justify-content: center"></div>
@@ -143,12 +154,18 @@
 			  		<button id="nextBtn">Next</button>
 			  	</div>			  	
 			 </div>
+	<!--   End Notecard Wrapper   -->
+
 
 			 <div class="newCard"> 
-			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>New Card<img src='img/plus.png' style='height:30px;'></img></button>
+			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>
+			  			New Card
+			  			<img src='img/plus.png' style='height:30px;'></img>
+			  		</button>
 			 </div>
 		</div>
 	</div>
+	
 
 	<div class="container">
 

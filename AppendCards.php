@@ -25,7 +25,7 @@ if ($numberOfRows > 0) {
     }} else {
     echo "0 results";
 }
-
+echo $result->fetch_assoc();
 $keywordsJSON = json_encode($keywords);
 $descriptionsJSON = json_encode($descriptions);
 
