@@ -24,7 +24,8 @@
 		cardKeywords = <?php echo $keywordsJSON ?>; //grabs keywords from php and stores it in object
 		cardDescriptions = <?php echo $descriptionsJSON ?>; // grabs descriptions from php and store it in object
 		cardNumber = 1;
-		maxCardNumber = "<?php echo $numberOfRows?>" // grabs how many cards there are 
+		maxCardNumber = cardKeywords.length // grabs how many cards there are 
+
 
 		//first card on inital load
 		updateCard(cardNumber)
@@ -74,13 +75,16 @@
 					},
 					success: function (response) {
 						$('#myModal').modal('hide');
-						location.reload();
+						cardKeywords.push(keyword);
+						cardDescriptions.push(description);
+						maxCardNumber = maxCardNumber+=1
+						updateCard(cardNumber)
 					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
 			}
 			else{
-				alert('Please fill all the field !');
+				alert('Please fill all the fields!');
 			}
 		});
 
@@ -96,7 +100,10 @@
 						description: description,		
 					},
 					success: function (response) {
-						location.reload();
+						cardKeywords.pop(keyword);
+						cardDescriptions.pop(description);
+						maxCardNumber = maxCardNumber - 1
+						updateCard(cardNumber -1)
 					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
