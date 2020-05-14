@@ -62,7 +62,7 @@
 		});
 
 		$('#addCardBtn').on('click', function() {
-			$("#addCardBtn").attr("disabled", "disabled");
+			$("#addCardBtn").attr("disabled", true);
 			var keyword = $('#newKeyword').val();
 			var description = $('#newDescription').val();
 			if(keyword!="" && description!=""){
@@ -79,17 +79,19 @@
 						cardDescriptions.push(description);
 						maxCardNumber = maxCardNumber+=1
 						updateCard(cardNumber)
+						$("#addCardBtn").removeAttr("disabled")
 					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
 			}
 			else{
 				alert('Please fill all the fields!');
+				$("#addCardBtn").removeAttr("disabled")
 			}
 		});
 
 		$('.delCardBtn').on('click', function() {
-			$(".delCardBtn").attr("disabled", "disabled");
+			$(".delCardBtn").attr("disabled", true);
 			var keyword = $('h1#keyword.cardText').text();
 			var description = $('#description').text();
 				$.ajax({
@@ -104,6 +106,7 @@
 						cardDescriptions.pop(description);
 						maxCardNumber = maxCardNumber - 1
 						updateCard(cardNumber -1)
+						$(".delCardBtn").removeAttr("disabled")
 					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
