@@ -21,6 +21,17 @@
 			} 
 		}
 
+		function emptySet () {
+			$('#keyword').html(`
+				<p style="margin-right:10px">your deck is empty!</p>    
+				<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>
+			  		New Card
+			  		<img src='img/plus.png' style='height:30px;'></img>
+			  	</button>`);
+			$('#description').empty();
+			$('#cardCounter').html(0 + "/" + 0);
+		}
+
 		cardKeywords = <?php echo $keywordsJSON ?>; //grabs keywords from php and stores it in object
 		cardDescriptions = <?php echo $descriptionsJSON ?>; // grabs descriptions from php and store it in object
 		cardNumber = 1;
@@ -72,7 +83,7 @@
 			        type: "post",
 			        data: {
 			        	setID: setName,
-			        	noteID: cardNumber+=1,
+			        	noteID: maxCardNumber+=1,
 						keyword: keyword,
 						description: description,		
 					},
@@ -80,8 +91,9 @@
 						$('#myModal').modal('hide');
 						cardKeywords.push(keyword);
 						cardDescriptions.push(description);
-						maxCardNumber = maxCardNumber+=1
+						
 						updateCard(cardNumber)
+						console.log(cardKeywords)
 						$("#addCardBtn").removeAttr("disabled")
 					// You will get response from your PHP page (what you echo or print)
         			},
@@ -105,15 +117,21 @@
 						description: description,		
 					},
 					success: function (response) {
-						cardKeywords.pop(keyword);
-						cardDescriptions.pop(description);
-						maxCardNumber = maxCardNumber - 1
-						if (cardNumber == 1){
-							updateCard(cardNumber+=1)
+						cardKeywords.splice(cardNumber -1,1);
+						cardDescriptions.splice(cardNumber -1,1);
+						
+						if (maxCardNumber <= 1){
+							emptySet();
+						}
+						else if (cardNumber == 1){
+							updateCard(cardNumber)
+							console.log("gotum")
 						} else {
-							updateCard(cardNumber-=1)
+							updateCard(cardNumber -1)
 						}
 						
+						console.log(cardKeywords)
+						maxCardNumber = maxCardNumber - 1;
 						$(".delCardBtn").removeAttr("disabled")
 					// You will get response from your PHP page (what you echo or print)
         			},
