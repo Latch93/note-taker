@@ -18,6 +18,7 @@
 				$('#keyword').html(cardKeywords[cardNumber-1]);
 				$('#description').html(cardDescriptions[cardNumber-1]);
 				$('#cardCounter').html(UpdateCardNumber + "/" + maxCardNumber);
+				console.log(maxCardNumber)
 			} 
 		}
 
@@ -41,6 +42,9 @@
 
 		//first card on inital load
 		updateCard(cardNumber)
+		if(maxCardNumber == 0){
+			emptySet()
+		}
 
 		//changes to the next card in the object
 		$("#nextBtn").click(function(){		
@@ -132,7 +136,9 @@
 						
 						console.log(cardKeywords)
 						maxCardNumber = maxCardNumber - 1;
+						console.log(maxCardNumber)
 						$(".delCardBtn").removeAttr("disabled")
+						updateCard(cardNumber)
 					// You will get response from your PHP page (what you echo or print)
         			},
 			    });
