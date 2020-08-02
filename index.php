@@ -2,9 +2,11 @@
 <head>
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" href="css/bootstrap.min">
+	
 	<?php include 'AppendCards.php';?>
+
+	<link rel="stylesheet" type="text/css" href="css/index">
 </head>
 
 <script>
@@ -158,13 +160,13 @@
 		    	<div class="flip-card-front">
 		      		<h1 class="cardText" id="keyword"></h1>
 		      		<div class="cardLabel">Keyword</div>
-		      		<button class="delCardBtn" style="float:right;margin-top: -27px;">Delete</button>
+		      		
 		      	</div>
 		
 		    	<div class="flip-card-back">
 		      		<h2 class="cardText" id="description"></h2>
 		      		<div class="cardlabel">Description</div>
-		      		<button class="delCardBtn" style="float:right;margin-top: -27px;">Delete</button>
+		      		
 		   		</div>
 		  	</div>
 		  	<div class="row" style="margin-top: 25px">
@@ -177,20 +179,28 @@
 			  	<div style="float:right">
 			  		<button id="nextBtn">Next</button>
 			  	</div>			  	
-			 </div>
+			</div>
+		
 	<!--   End Notecard Wrapper   -->
 
 
+<div class="settings">
+	<img src="img/cogwheel.png" style="height:30px; margin-top:25%"></img>
+		<div class="settingsModal">
 			 <div class="newCard"> 
-			  		<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>
-			  			New Card
-			  			<img src='img/plus.png' style='height:30px;'></img>
-			  		</button>
+			  	<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id='newCardBtn'>
+			  		New Card
+			  		<img src='img/plus.png' style='height:30px;'></img>
+			  	</button>
+
+			  	<button class="delCardBtn btn btn-info btn-lg">
+			  		Delete Card
+			  	</button>
 			 </div>
 		</div>
 	</div>
-	
-
+</div>		
+<div>
 	<div class="container">
 
   <!-- Modal -->
