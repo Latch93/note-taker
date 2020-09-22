@@ -1,4 +1,5 @@
 <?php
+/*
 	include 'databaseInfo.php';
 
 	$setID =$_POST['setID'];
@@ -13,4 +14,5 @@
 		echo json_encode(array("statusCode"=>201));
 	}
 	mysqli_close($conn);
+	*/ echo "yes?";
 ?>
